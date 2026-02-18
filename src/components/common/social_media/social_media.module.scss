@@ -1,0 +1,28 @@
+.SocialMedia {
+  display: flex;
+  gap: 20px;
+
+  .item {
+    // background-color: red;
+    height: 50px;
+    border: 1px solid $color_primary;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    @include flexCenter;
+
+    svg {
+      font-size: 18px;
+    }
+
+    path {
+      color: $color_black;
+    }
+
+    &:hover {
+      background-color: $color_primary;
+      path {
+        color: white;
+      }
+    }
+  }
+}

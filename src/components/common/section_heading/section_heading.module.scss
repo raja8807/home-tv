@@ -1,0 +1,45 @@
+.SectionHeading {
+  padding: 80px 0;
+  text-align: center;
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h2 {
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.2em;
+      max-width: 750px;
+      margin: auto;
+    }
+
+    p {
+      max-width: 750px;
+      margin: auto;
+
+      &.title {
+        font-size: 20px;
+        color: $color_primary;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      &.caption {
+        color: #535353;
+        font-size: 18px;
+      }
+    }
+  }
+
+  &.v2 {
+    background-color: white;
+
+    .wrap {
+      h2 {
+        color: $color_black;
+      }
+    }
+  }
+}

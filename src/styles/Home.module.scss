@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap");
+
+.main {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Cal Sans", sans-serif !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  section {
+    max-width: 100dvw;
+    overflow: hidden;
+  }
+}

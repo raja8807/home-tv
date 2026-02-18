@@ -1,0 +1,50 @@
+.MenuButton {
+  display: none;
+  svg {
+    font-size: 30px;
+    cursor: pointer;
+
+    &:hover {
+      color: $color_primary;
+    }
+  }
+
+  @include respond-below(md) {
+    display: block;
+  }
+}
+
+.body {
+  display: flex;
+  //   justify-content: space-between;
+  flex-direction: column;
+  gap: 20px;
+
+  height: 100%;
+  nav {
+    ul {
+      padding: 0;
+      margin: 0;
+      li {
+        list-style: none;
+        text-align: center;
+
+        a {
+          padding: 10px 0;
+          display: block;
+          font-family: "Cal Sans", sans-serif !important;
+          border-bottom: 2px solid transparent;
+
+          &:hover {
+            color: $color_primary;
+          }
+
+          &.active {
+            color: $color_primary;
+            border-bottom: 2px solid $color_primary;
+          }
+        }
+      }
+    }
+  }
+}

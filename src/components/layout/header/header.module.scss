@@ -1,0 +1,60 @@
+.Header {
+  // border-bottom: 1px solid rgba(230, 234, 239, 0.15);
+
+  width: 100dvw;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  .wrap {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 80px;
+
+      nav {
+        ul {
+          display: flex;
+          padding: 0;
+          gap: 40px;
+          margin: 0;
+          li {
+            list-style: none;
+
+            a {
+              text-transform: uppercase;
+              font-family: "Cal Sans", sans-serif !important;
+              padding: 0 8px;
+
+              &:hover,
+              &.active {
+                color: $color_primary;
+              }
+
+              &.active {
+                border-bottom: 3px solid $color_primary;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include respond-below(md) {
+    .wrap {
+      nav {
+        display: none;
+      }
+
+      .cta {
+        display: none;
+      }
+    }
+  }
+}
