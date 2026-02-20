@@ -74,10 +74,10 @@ export default function TvScreen() {
               cursor: "pointer",
             }}
           >
-            <br />
+            {/* <br />
             <Image src={channel.logoUrl} width={50} alt={channel.name} />
             <br />
-            <br />
+            <br /> */}
             {channel.name}
           </button>
         ))}

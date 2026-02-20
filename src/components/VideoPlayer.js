@@ -11,11 +11,6 @@ export default function VideoPlayer({ url, isFullScreen }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // const url =
-  //   "https://n18syndication.akamaized.net/bpk-tv/News18_Tamil_Nadu_NW18_MOB/output01/News18_Tamil_Nadu_NW18_MOB-audio_98835_tam=98800-video=658800.m3u8";
-
-  console.log(url);
-
   /* -------------------- HLS Setup -------------------- */
   useEffect(() => {
     if (!url) return;
