@@ -11,8 +11,15 @@ export default function VideoPlayer({ url, isFullScreen }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const fetchData = async () => {
+    // const res = await fetch("/api/playlist");
+    // const data = await res.text();
+    // console.log(data);
+  };
+
   /* -------------------- HLS Setup -------------------- */
   useEffect(() => {
+    fetchData();
     if (!url) return;
 
     const video = videoRef.current;
@@ -34,6 +41,8 @@ export default function VideoPlayer({ url, isFullScreen }) {
       hlsRef.current = hls;
 
       hls.loadSource(url);
+      // hls.loadSource(`/api/proxy?url=${encodeURIComponent(url)}`);
+      // hls.loadSource(url);
       hls.attachMedia(video);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {

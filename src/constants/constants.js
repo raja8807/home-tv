@@ -1,4 +1,40 @@
 export const CHANNELS = [
+  // {
+  //   name: "Sun Tv",
+  //   url: "http://cdns.jp-primehome.com:8000/zhongying/live/playlist.m3u8",
+  //   logoUrl:
+  //     "https://static.wikia.nocookie.net/logopedia/images/9/9b/News_Tamil_24x7.jpg",
+  // },
+  {
+    name: "Colors Tamil",
+    url: "http://198.27.83.207:2550/COLORS_TAMIL_SD/index.m3u8",
+    logoUrl:
+      "https://static.wikia.nocookie.net/logopedia/images/9/9b/News_Tamil_24x7.jpg",
+  },
+  {
+    name: "Zee Tamil",
+    url: "http://198.27.83.207:8888/ZEE_TAMIL_SD/index.m3u8",
+    logoUrl:
+      "https://static.wikia.nocookie.net/logopedia/images/9/9b/News_Tamil_24x7.jpg",
+  },
+  {
+    name: "History Tv",
+    url: "https://amg01448-amg01448c16-samsung-in-3495.playouts.now.amagi.tv/playlist/amg01448-samsungindia-historychannelenglish-samsungin/playlist.m3u8",
+    logoUrl:
+      "https://static.wikia.nocookie.net/logopedia/images/9/9b/News_Tamil_24x7.jpg",
+  },
+  {
+    name: "Star Vijay",
+    url: "http://198.27.83.207:8888/STAR_VIJAY_SD/index.m3u8",
+    logoUrl:
+      "https://static.wikia.nocookie.net/logopedia/images/9/9b/News_Tamil_24x7.jpg",
+  },
+  // {
+  //   name: "Sun Music",
+  //   url: "http://15.235.144.106:14055",
+  //   logoUrl:
+  //     "https://static.wikia.nocookie.net/logopedia/images/9/9b/News_Tamil_24x7.jpg",
+  // },
   {
     name: "NEWS Tamil",
     url: "https://d18a8tqmogafg2.cloudfront.net/newstamil/tracks-v3a1/mono.m3u8",

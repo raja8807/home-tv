@@ -1,9 +1,9 @@
 export default async function handler(req, res) {
   try {
-    // const urlRes = await fetch("https://iptv-org.github.io/iptv/index.m3u");
-    const urlRes = await fetch(
-      "https://iptv-org.github.io/iptv/countries/in.m3u",
-    );
+    const urlRes = await fetch("https://iptv-org.github.io/iptv/index.m3u");
+    // const urlRes = await fetch(
+    //   "https://iptv-org.github.io/iptv/countries/in.m3u",
+    // );
 
     if (!urlRes.ok) {
       return res.status(500).json({ error: "Failed to fetch playlist" });

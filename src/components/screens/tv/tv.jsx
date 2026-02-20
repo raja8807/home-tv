@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import { parseM3U } from "@/lib/parseM3U";
 import VideoPlayer from "@/components/VideoPlayer";
 import { supabase } from "@/lib/supabase";
-import { Image } from "react-bootstrap";
 import { CHANNELS } from "@/constants/constants";
 
 export default function TvScreen() {
