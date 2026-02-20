@@ -1,85 +1,150 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
 export default function VideoPlayer({ url, isFullScreen }) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
+  const hlsRef = useRef(null);
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // const url =
+  //   "https://n18syndication.akamaized.net/bpk-tv/News18_Tamil_Nadu_NW18_MOB/output01/News18_Tamil_Nadu_NW18_MOB-audio_98835_tam=98800-video=658800.m3u8";
+
+  console.log(url);
+
+  /* -------------------- HLS Setup -------------------- */
   useEffect(() => {
     if (!url) return;
 
     const video = videoRef.current;
-    let hls;
+    setLoading(true);
+    setError(null);
+
+    // Destroy previous instance if exists
+    if (hlsRef.current) {
+      hlsRef.current.destroy();
+      hlsRef.current = null;
+    }
 
     if (Hls.isSupported()) {
-      hls = new Hls();
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+      });
+
+      hlsRef.current = hls;
+
       hls.loadSource(url);
       hls.attachMedia(video);
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = url;
-    }
 
-    // handleFullScreen();
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(() => {});
+        setLoading(false);
+      });
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.error("HLS Error:", data);
+
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              hls.startLoad();
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              hls.recoverMediaError();
+              break;
+            default:
+              hls.destroy();
+              setError("Stream failed to load.");
+              break;
+          }
+        }
+      });
+    }
+    // Safari Native HLS Support
+    else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = url;
+      video.addEventListener("loadedmetadata", () => {
+        video.play().catch(() => {});
+        setLoading(false);
+      });
+    } else {
+      setError("HLS not supported in this browser.");
+      setLoading(false);
+    }
 
     return () => {
-      if (hls) hls.destroy();
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
     };
   }, [url]);
-
-  useEffect(() => {
-    if (isFullScreen) {
-      setTimeout(() => {
-        handleFullScreen();
-      }, 1000);
-    }
-  }, [isFullScreen]);
-
-  const handleFullScreen = () => {
-    const container = containerRef.current;
-
-    if (!document.fullscreenElement) {
-      container.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  };
 
   return (
     <div
       ref={containerRef}
       style={{
         position: "relative",
-        maxWidth: "900px",
+        maxWidth: "1000px",
+        margin: "auto",
+        background: "black",
+        borderRadius: "12px",
+        overflow: "hidden",
       }}
     >
       <video
         ref={videoRef}
         controls
         autoPlay
+        playsInline
         style={{
           width: "100%",
-          borderRadius: "12px",
+          display: "block",
         }}
       />
 
-      {/* <button
-        onClick={handleFullScreen}
-        style={{
-          position: "absolute",
-          bottom: "15px",
-          right: "15px",
-          padding: "8px 12px",
-          background: "black",
-          color: "white",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
-      >
-        Full Screen
-      </button> */}
+      {/* Loading Overlay */}
+      {loading && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(0,0,0,0.6)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "white",
+            fontSize: "18px",
+          }}
+        >
+          Loading stream...
+        </div>
+      )}
+
+      {/* Error Overlay */}
+      {error && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(0,0,0,0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "red",
+            fontSize: "16px",
+            padding: "20px",
+            textAlign: "center",
+          }}
+        >
+          {error}
+        </div>
+      )}
     </div>
   );
 }

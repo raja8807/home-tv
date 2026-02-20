@@ -5,22 +5,12 @@ import { useEffect, useState } from "react";
 import { parseM3U } from "@/lib/parseM3U";
 import VideoPlayer from "@/components/VideoPlayer";
 import { supabase } from "@/lib/supabase";
+import { Image } from "react-bootstrap";
+import { CHANNELS } from "@/constants/constants";
 
 export default function TvScreen() {
-  const [channels, setChannels] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
-
-  useEffect(() => {
-    async function loadPlaylist() {
-      const res = await fetch("/api/playlist");
-      const text = await res.text();
-      const parsed = parseM3U(text);
-      setChannels(parsed); // limit for performance
-    }
-
-    loadPlaylist();
-  }, []);
 
   useEffect(() => {
     async function getInitial() {
@@ -61,7 +51,7 @@ export default function TvScreen() {
   return (
     <main style={{ padding: "20px" }}>
       {selected && (
-        <div style={{ marginBottom: "20px" }}>
+        <div style={{ marginBottom: "20px", textAlign: "center" }}>
           <VideoPlayer url={selected.url} isFullScreen={isFullScreen} />
           <h3>{selected.name}</h3>
         </div>
@@ -74,7 +64,7 @@ export default function TvScreen() {
           gap: "10px",
         }}
       >
-        {channels.map((channel, index) => (
+        {CHANNELS.map((channel, index) => (
           <button
             key={index}
             onClick={() => setSelected(channel)}
@@ -84,6 +74,10 @@ export default function TvScreen() {
               cursor: "pointer",
             }}
           >
+            <br />
+            <Image src={channel.logoUrl} width={50} alt={channel.name} />
+            <br />
+            <br />
             {channel.name}
           </button>
         ))}

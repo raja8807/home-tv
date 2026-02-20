@@ -1,21 +1,3 @@
-// export function parseM3U(text) {
-//   const lines = text.split("\n");
-//   const channels = [];
-
-//   for (let i = 0; i < lines.length; i++) {
-//     if (lines[i].startsWith("#EXTINF")) {
-//       const name = lines[i].split(",")[1]?.trim();
-//       const url = lines[i + 1]?.trim();
-
-//       if (url && url.startsWith("http")) {
-//         channels.push({ name, url });
-//       }
-//     }
-//   }
-
-//   return channels;
-// }
-
 export function parseM3U(text) {
   const lines = text.split("\n");
   const channels = [];
@@ -31,8 +13,10 @@ export function parseM3U(text) {
   ];
 
   for (let i = 0; i < lines.length; i++) {
-    if (lines[i].startsWith("#EXTINF")) {
-      const name = lines[i].split(",")[1]?.trim();
+    const line = lines[i];
+
+    if (line.startsWith("#EXTINF")) {
+      const name = line.split(",")[1]?.trim();
       const url = lines[i + 1]?.trim();
 
       if (!name || !url) continue;
@@ -44,7 +28,15 @@ export function parseM3U(text) {
       );
 
       if (isTamil && url.startsWith("http")) {
-        channels.push({ name, url });
+        // ✅ Extract logo
+        const logoMatch = line.match(/tvg-logo="([^"]+)"/);
+        const logoUrl = logoMatch ? logoMatch[1] : null;
+
+        channels.push({
+          name,
+          url,
+          logoUrl, // added logo support
+        });
       }
     }
   }

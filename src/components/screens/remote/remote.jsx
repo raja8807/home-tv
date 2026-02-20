@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import { parseM3U } from "@/lib/parseM3U";
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Image } from "react-bootstrap";
 import { supabase } from "@/lib/supabase";
+import { CHANNELS } from "@/constants/constants";
 
 export default function Remote() {
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
 
   useEffect(() => {
-    async function loadPlaylist() {
-      const res = await fetch("/api/playlist");
-      const text = await res.text();
-      setChannels(parseM3U(text));
-    }
-
     async function getCurrentChannel() {
       const { data } = await supabase
         .from("tv_channel")
@@ -24,7 +19,6 @@ export default function Remote() {
       setCurrentChannel(data);
     }
 
-    loadPlaylist();
     getCurrentChannel();
 
     // 🔴 Realtime listener
@@ -106,24 +100,37 @@ export default function Remote() {
       )}
 
       <Row>
-        {channels.map((ch, i) => {
+        {CHANNELS.map((ch, i) => {
           const isActive = ch.name === currentChannel?.name;
 
           return (
-            <Col key={i} xs={6}>
+            <Col
+              key={i}
+              xs={6}
+              md={4}
+              lg={3}
+              style={{
+                marginBottom: "20px",
+              }}
+            >
               <button
                 onClick={() => changeChannel(ch)}
                 style={{
                   display: "block",
-                  margin: "6px 0",
+                  //   margin: "6px 0",
                   padding: "12px",
                   width: "100%",
                   borderRadius: "8px",
                   border: isActive ? "2px solid #28a745" : "1px solid #ccc",
                   background: isActive ? "#d4edda" : "white",
                   fontWeight: isActive ? "bold" : "normal",
+                  height: "100%",
                 }}
               >
+                <br />
+                <Image src={ch.logoUrl} width={50} alt={ch.name} />
+                <br />
+                <br />
                 {ch.name}
               </button>
             </Col>
